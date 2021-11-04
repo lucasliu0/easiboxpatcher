@@ -42,9 +42,6 @@ class SqlHandler():
         database='easi'
         pass
         
-    #
-    # Executa querys no SQL
-    #
     def sql_update(file, conn, dir):       
         try:
             with conn.cursor() as cur:

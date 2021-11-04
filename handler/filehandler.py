@@ -27,8 +27,10 @@ class FileHandler():
         subprocess.call("sudo mv easicash_backup.tar.gz /mnt/easiboxpatcher/")
 
     def restore_files():
-        
-        subprocess.call("sudo tar -xf /mnt/easiboxpatcher/easicash_backup.tar.gz /mnt/easicash")
+        subprocess.call("sudo tar -xf /mnt/easiboxpatcher/easicash_backup.tar.gz /mnt/easiboxpatcher/backup_files")
+        subprocess.call("sudo rm -r /mnt/easicash/")
+        subprocess.call("sudo mv -F  /mnt/easiboxpatcher/backup_files/ /mnt/easicash")
+
         
 
 
