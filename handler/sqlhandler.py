@@ -35,71 +35,7 @@ class SqlHandler():
     def create_dump_sql(user, password, database):
         os.popen("mysqldump -u \'%s\' -p\'%s\' \'%s\' > \'%s\'" % (user, password, database,'/mnt/easiboxpatcher/'))
         EasiLogging.info("Dump of version {} made".format(Config.get("VERSION")))
-
-    # def updateSQL(version = None):
-    #     EasiLogging.setLevel(logging.DEBUG)
-    #     user='easi'
-    #     password='$easi$'
-    #     database='easi'
-    #     dir ='/mnt/easicash/easiboxsrv/migrate/data/'
-    #     EasiLogging.debugc(LOGGING, "Starting")
-    #     #
-    #     #Faz backup dump do sql atual para caso aconteça algum erro que seja necessario o rollback
-    #     #
-    #     os.popen("mysqldump -u \'%s\' -p\'%s\' \'%s\' > \'%s\'" % (user, password, database, "/mnt/easicash/easiboxsrv/update/data/dump/EASI_BACKUP.sql"))
-
-    #     EasiLogging.debugc(LOGGING, "dump made")
-    #     #
-    #     # Parar todos os servicos antes de continuar com o update do sql.
-    #     #
-        
-    #     BoxInstallation.stopServices()
-        
-    #     #
-    #     # Configura pymsql para realizar querys no banco
-    #     #
-    #     connection = pymysql.connect(unix_socket='/var/run/mysqld/mysqld.sock',
-    #                         user=user,
-    #                         password=password,
-    #                         database=database,
-    #                         cursorclass=pymysql.cursors.DictCursor)
-    #     EasiLogging.debugc(LOGGING, "Connection made")
-
-    #     try:
-    #         files = sorted(os.listdir(dir + 'up/'))
-    #         with connection.cursor() as cur:
-    #             EasiLogging.debugc(LOGGING, "cursor created")
-    #             if(version is None):
-    #                 for file in files:
-    #                     EasiLogging.debugc(LOGGING, "checking file: {}".format(str(file)))
-    #                     result = SqlHandler.exec_sql_file(cur, dir + 'up/' + str(file), connection)
-    #                     if not result:
-    #                         connection.rollback()
-    #                         connection.close()
-    #                         return 
-    #             else:
-    #                 major, minor, build = version.split(".")
-    #                 #Pegar a partir da versao atual, todas as versoes ate a version passada em argumento
-
-    #         connection.commit()
-    #         EasiLogging.debugc(LOGGING, "commit")
-    #         connection.close()
-
-
-    #     except pymysql.Error as e:
-    #         EasiLogging.error("Update could not be completed: {}".format(str(e)))
-    #         connection.close()
-    #         BoxInstallation.startServices()
-    #         return
-
-        
-    #     #
-    #     # Reiniciar todos os servicos apos o update no sql
-    #     #
-    #     BoxInstallation.startServices()
-
-
-    
+ 
     def downgradeSQL(version):
         user='easi'
         password='$easi$'
