@@ -1,7 +1,6 @@
 
 import subprocess
 from config import *
-import os
 import re
 from easilogging import EasiLogging
 from ..BoxInstallation import BoxInstallation
@@ -33,7 +32,8 @@ class SqlHandler():
     
 
     def create_dump_sql(user, password, database):
-        os.popen("mysqldump -u \'%s\' -p\'%s\' \'%s\' > \'%s\'" % (user, password, database,'/mnt/easiboxpatcher/'))
+
+        subprocess.call("mysqldump -u \'%s\' -p\'%s\' \'%s\' > \'%s\'" % (user, password, database,'/mnt/easiboxpatcher/'))  
         EasiLogging.info("Dump of version {} made".format(Config.get("VERSION")))
  
     def downgradeSQL(version):
