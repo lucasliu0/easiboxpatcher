@@ -7,7 +7,7 @@ import subprocess
 
 import aiohttp
 from config import *
-from update.handler.sqlhandler import SqlHandler
+from .handler.sqlhandler import SqlHandler
 from easilogging import EasiLogging
 from util import *
 from tempfile import mkstemp
@@ -16,7 +16,6 @@ from os import fdopen, remove
 
 import zipfile
 import signal
-import config
 import requests
 import sqlite3
 import json
@@ -164,10 +163,10 @@ class BoxInstallation():
         
         #EasiMigrate.request_update_files() #implementar funcao q faz request para o servidor com numero de versao atual
 
-        dir ='/mnt/easicash/easiboxsrv/update/data/'
+        dir ='/mnt/easiboxpatcher/data/'
         files = BoxInstallation.get_files(dir)
 
-        SqlHandler.create_dump_sql(user, password, database, dir)
+        SqlHandler.create_dump_sql(user, password, database)
         
         BoxInstallation.stopServices()
 

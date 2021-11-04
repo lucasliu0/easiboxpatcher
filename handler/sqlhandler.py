@@ -8,7 +8,6 @@ from ..BoxInstallation import BoxInstallation
 import pymysql
 
 
-json_text = {"version": "1.2.3", "file_url": "URL_TO_FILE"}
 
 LOGGING = 1
 class SqlHandler():
@@ -33,8 +32,8 @@ class SqlHandler():
         pass
     
 
-    def create_dump_sql(user, password, database, dir):
-        os.popen("mysqldump -u \'%s\' -p\'%s\' \'%s\' > \'%s\'" % (user, password, database,(dir + "dump/EASI_BACKUP.sql")))
+    def create_dump_sql(user, password, database):
+        os.popen("mysqldump -u \'%s\' -p\'%s\' \'%s\' > \'%s\'" % (user, password, database,'/mnt/easiboxpatcher/'))
         EasiLogging.info("Dump of version {} made".format(Config.get("VERSION")))
 
     # def updateSQL(version = None):

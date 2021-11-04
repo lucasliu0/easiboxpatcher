@@ -1,6 +1,5 @@
 
 import subprocess
-from config import *
 import os
 import re
 from easilogging import EasiLogging
@@ -25,11 +24,11 @@ class FileHandler():
                     #usar ced para substituir text em config.txt                  
     def backup_files():
         subprocess.call("sudo tar -cf easicash_backup.tar.gz /mnt/easicash/")
-        subprocess.call("sudo mv easicash_backup.tar.gz /mnt/easicash_backup/")
+        subprocess.call("sudo mv easicash_backup.tar.gz /mnt/easiboxpatcher/")
 
     def restore_files():
-        #remove all easicash, extract tar to mnt/easicash
-        subprocess.call("")
+        
+        subprocess.call("sudo tar -xf /mnt/easiboxpatcher/easicash_backup.tar.gz /mnt/easicash")
         
 
 
