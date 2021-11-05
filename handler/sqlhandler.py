@@ -3,7 +3,6 @@ import subprocess
 from config import *
 import re
 from easilogging import EasiLogging
-from ..BoxInstallation import BoxInstallation
 import pymysql
 
 
@@ -32,8 +31,11 @@ class SqlHandler():
     
 
     def create_dump_sql(user, password, database):
-
-        subprocess.call("mysqldump -u \'%s\' -p\'%s\' \'%s\' > \'%s\'" % (user, password, database,'/mnt/easiboxpatcher/'))  
+        args = ["mysqldump","--user="+user,"--password="+password, database]
+        file = open("EASI_DUMP.sql", 'w')
+        proc = subprocess.Popen(args, stdout=file)
+        proc.communicate()
+        file.close()
         EasiLogging.info("Dump of version {} made".format(Config.get("VERSION")))
  
     def downgradeSQL(version):
@@ -51,15 +53,16 @@ class SqlHandler():
                 if not result:
                     conn.rollback()
                     conn.close()
-                    return 
+                    return False
         
             conn.commit()
             EasiLogging.debugc(LOGGING, "commit")
             conn.close()
+            return True
         except pymysql.Error as e:
             EasiLogging.error("Update could not be completed: {}".format(str(e)))
             conn.close()
-            return 0
+            return False
     
     def exec_sql_file(cursor, sql_file, connection):
         EasiLogging.info(" Executing SQL script file: '%s'" % (sql_file)) 
@@ -78,7 +81,6 @@ class SqlHandler():
                 except Exception as e:
                     EasiLogging.error("MySQLError in file '%s' during execute statement \n\tArgs: '%s'" % (str(sql_file),str(e.args)))
                     connection.rollback()
-                    BoxInstallation.startServices()
                     return False
 
                 statement = ""
@@ -87,7 +89,7 @@ class SqlHandler():
     def restore_sql(conn):
         try:
             with conn.cursor() as cur:
-                file = '/mnt/easicash/easiboxsrv/update/data/dump/EASI_BACKUP.sql'
+                file = '/mnt/easiboxpatcher/EASI_BACKUP.sql'
                 response = SqlHandler.exec_sql_file(cur, file, conn)
                 if response:
                     EasiLogging.debugc(LOGGING, "SQL reverted")

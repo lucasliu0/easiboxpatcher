@@ -15,22 +15,28 @@ class FileHandler():
                     file_path, hash, permission, user, group = line.split(' ')
                     #fazer check de hash para substituir arquivos
                     EasiLogging.debugc(LOGGING, str(hash))
-                    if(hash):
+                    if(hash):                        
                         file_name = file_path.split("/")[-1]
-                        subprocess.call('sudo mv -f {} {}'.format(dir+file_name, file_path))
-                        subprocess.call('sudo chown {}:{} {}'.format(user, group, file_path))
-                        subprocess.call('sudo chmod {} {}'.format(permission, file_path))
-                    
+                        proc1 = subprocess.Popen(['sudo', 'mv', '-f', dir+file_name, file_path])
+                        proc1.communicate()                           
+                        proc2 = subprocess.Popen(['sudo', 'chown', '{}:{}'.format(user, group), file_path])
+                        proc2.communicate()                         
+                        proc3 = subprocess.Popen(['sudo', 'chmod', permission, file_path])
+                        proc3.communicate() 
+
                     #usar ced para substituir text em config.txt                  
     def backup_files():
-        subprocess.call("sudo tar -cf easicash_backup.tar.gz /mnt/easicash/")
-        subprocess.call("sudo mv easicash_backup.tar.gz /mnt/easiboxpatcher/")
+        EasiLogging.info("Backing up easicash...")
+        proc1 = subprocess.Popen(["sudo","tar","-cf","easicash_backup.tar.gz","/mnt/easicash_test/"])
+        proc1.communicate()
 
     def restore_files():
-        subprocess.call("sudo tar -xf /mnt/easiboxpatcher/easicash_backup.tar.gz /mnt/easiboxpatcher/backup_files")
-        subprocess.call("sudo rm -r /mnt/easicash/")
-        subprocess.call("sudo mv -F  /mnt/easiboxpatcher/backup_files/ /mnt/easicash")
-
+        proc1 = subprocess.Popen(['sudo', 'tar', '-xf', '/mnt/easiboxpatcher/easicash_backup.tar.gz', '/mnt/easiboxpatcher/backup_files'])
+        proc1.communicate()
+        proc2 = subprocess.Popen(['sudo', 'rm', '-r', '/mnt/easicash_test/'])
+        proc2.communicate()
+        proc3 = subprocess.Popen(['sudo', 'mv', '-F',  '/mnt/easiboxpatcher/backup_files/', '/mnt/easicash'])
+        proc3.communicate()
         
 
 
